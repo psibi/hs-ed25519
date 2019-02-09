@@ -1,6 +1,6 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE ForeignFunctionInterface #-}
-
+{-# LANGUAGE GeneralizedNewtypeDeriving#-}
 #if __GLASGOW_HASKELL__ >= 702
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE StandaloneDeriving #-}
@@ -119,6 +119,7 @@ import           Data.ByteString          as S
 import           Data.ByteString.Internal as SI
 import           Data.ByteString.Unsafe   as SU
 import           Data.Word
+import           Control.DeepSeq (NFData)
 
 #if __GLASGOW_HASKELL__ >= 702
 import           GHC.Generics             (Generic)
@@ -162,7 +163,7 @@ newtype PublicKey = PublicKey { unPublicKey :: ByteString
                                 -- about the underlying blob; this is
                                 -- only provided for interoperability.
                               }
-        deriving (Eq, Show, Ord)
+        deriving (Eq, Show, Ord, NFData)
 
 {-# DEPRECATED unPublicKey "This accessor is deprecated, and will be removed in a future version. Use @'openPublicKey'@ instead." #-}
 
@@ -178,7 +179,7 @@ newtype SecretKey = SecretKey { unSecretKey :: ByteString
                                 -- about the underlying blob; this is
                                 -- only provided for interoperability.
                               }
-        deriving (Eq, Show, Ord)
+        deriving (Eq, Show, Ord, NFData)
 
 {-# DEPRECATED unSecretKey "This accessor is deprecated, and will be removed in a future version. Use @'openSecretKey'@ instead." #-}
 
